@@ -30,10 +30,7 @@ export type Props = {
   defaultValue: string;
 }
 
-type State = {
-  blockMenuOpen: boolean;
-  blockMenuSearch: string;
-};
+type State = {};
 
 class Editor extends React.PureComponent<Props, State> {
   static defaultProps = {
@@ -47,7 +44,7 @@ class Editor extends React.PureComponent<Props, State> {
   marks: { [name: string]: MarkSpec };
   element?: HTMLElement | null;
   schema: Schema;
-  view: any;
+  view: EditorView;
   
   componentDidMount() {
     this.init();
@@ -67,11 +64,11 @@ class Editor extends React.PureComponent<Props, State> {
     return new ExtensionManager(
       [
         new Doc(),
-
+        
+        new Paragraph(),
         new BulletList(),
         new ListItem(),
         new Text(),
-        new Paragraph(),
         
         new Bold(),
         new Italic(),
@@ -108,6 +105,7 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   createView() {
+    console.log("createView")
     if (!this.element) {
       throw new Error("createView called before ref available");
     }
@@ -115,16 +113,16 @@ class Editor extends React.PureComponent<Props, State> {
     const view = new EditorView(this.element, {
       state: this.createState(),
       dispatchTransaction: transaction => {
+        console.log("createView::dispatchTransaction")
         const { state, transactions } = this.view.state.applyTransaction(
           transaction
         );
 
+        this.view.updateState(state);
         if (transactions.some(tr => tr.docChanged)) {
           // TODO: emit change event to other listeners
-          console.log("handleChange")
         }
 
-        this.view.updateState(state);
       }
     });
     
@@ -132,10 +130,8 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   createState(value?: any) {
-    console.log("createState::", value)
+    console.log("createState")
     const doc = this.createDocument(value || this.props.defaultValue);
-
-    console.log(doc)
 
     return EditorState.create({
       schema: this.schema,
@@ -156,8 +152,26 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   createDocument(content: any) {
-    console.log(`createDocument::`, content)
-    return DOMParser.fromSchema(this.schema).parse(content);
+    console.log("createDocument")
+
+    if (content === null) {
+      console.log("createDocument::content = null")
+      return this.schema.nodeFromJSON({
+        type: 'doc',
+        content: [{
+          type: 'paragraph',
+        }],
+      });
+    }
+
+    if (typeof content === 'string') {
+      console.log("createDocument::content = string", content)
+      const element = document.createElement('div');
+      element.innerHTML = content.trim();
+
+      return DOMParser.fromSchema(this.schema).parse(element);
+    }
+    
   }
 
   render = () => {
