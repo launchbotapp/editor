@@ -27,7 +27,8 @@ import {
 export type Props = {
   id?: string;
   placeholder: string;
-  defaultValue: string;
+  defaultValue: any;
+  onChange?: (value: any) => void;
 }
 
 type State = {};
@@ -105,7 +106,6 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   createView() {
-    console.log("createView")
     if (!this.element) {
       throw new Error("createView called before ref available");
     }
@@ -113,16 +113,15 @@ class Editor extends React.PureComponent<Props, State> {
     const view = new EditorView(this.element, {
       state: this.createState(),
       dispatchTransaction: transaction => {
-        console.log("createView::dispatchTransaction")
         const { state, transactions } = this.view.state.applyTransaction(
           transaction
         );
 
         this.view.updateState(state);
-        if (transactions.some(tr => tr.docChanged)) {
-          // TODO: emit change event to other listeners
-        }
 
+        if (transactions.some(tr => tr.docChanged)) {
+          this.handleChange();
+        }
       }
     });
     
@@ -130,8 +129,7 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   createState(value?: any) {
-    console.log("createState")
-    const doc = this.createDocument(value || this.props.defaultValue);
+    const doc = this.createDocument(this.props.defaultValue);
 
     return EditorState.create({
       schema: this.schema,
@@ -152,10 +150,7 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   createDocument(content: any) {
-    console.log("createDocument")
-
     if (content === null) {
-      console.log("createDocument::content = null")
       return this.schema.nodeFromJSON({
         type: 'doc',
         content: [{
@@ -164,15 +159,37 @@ class Editor extends React.PureComponent<Props, State> {
       });
     }
 
+    if (typeof content === 'object') {
+      try {
+        return this.schema.nodeFromJSON(content)
+      } catch (error) {
+        console.warn('[editor warn]: Invalid content.', 'Passed value:', content, 'Error:', error)
+        return this.schema.nodeFromJSON({
+          type: 'doc',
+          content: [{
+            type: 'paragraph',
+          }],
+        });
+      }
+    }
+
     if (typeof content === 'string') {
-      console.log("createDocument::content = string", content)
       const element = document.createElement('div');
       element.innerHTML = content.trim();
 
       return DOMParser.fromSchema(this.schema).parse(element);
     }
-    
   }
+
+  value = () => {
+    return this.view.state.toJSON().doc;
+  }
+  
+  handleChange = () => {
+    if (this.props.onChange) {
+      this.props.onChange(this.value());
+    }
+  };
 
   render = () => {
     return (
