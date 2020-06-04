@@ -11,7 +11,7 @@ const defaultValue = JSON.parse(savedText) || exampleText;
 
 const Container = styled.div`
   font-family: -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
-`
+`;
 
 const Button = styled.button`
   font-family: -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
@@ -19,7 +19,26 @@ const Button = styled.button`
   padding: 0.4em 0.8em;
   border-radius: 5px;
   cursor: pointer;
-`
+  background: black;
+  color: white;
+`;
+
+const EditorWrapper = styled.div`
+  position: relative;
+  padding: 1em; 
+`;
+
+const Backdrop = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  border-radius: 5px;
+  border: ${props => props.readOnly ? "none" : "2px solid #EEEEEE"};
+  background: ${props => props.readOnly ? "#f8f8f8" : "white"};
+`;
 
 const Example = () => {
   const [readOnly, setReadOnly] = useState(false);
@@ -38,11 +57,17 @@ const Example = () => {
         </Button>
       </div>
       
-      <Editor
-        defaultValue={defaultValue}
-        onChange={handleChange}
-        readOnly={readOnly}
-      />
+      <EditorWrapper>
+        <Editor
+          defaultValue={defaultValue}
+          onChange={handleChange}
+          readOnly={readOnly}
+        />
+
+        <Backdrop
+          readOnly={readOnly}
+        />
+      </EditorWrapper>
     </Container>
   )
 }

@@ -227,13 +227,15 @@ class Editor extends React.PureComponent<Props, State> {
 }
 
 const StyledEditor = styled.div`
-  border: 1px solid #CCCCCC;
+  /* border: 1px solid #CCCCCC;
   font-size: 1em;
   line-height: 1.7em;
   width: 100%;
   padding: 1em;
   border-radius: 5px;
-  box-sizing: border-box;
+  box-sizing: border-box; */
+  z-index: 1;
+  position: relative;
 
   .ProseMirror {
     position: relative;
@@ -241,6 +243,7 @@ const StyledEditor = styled.div`
     word-wrap: break-word;
     white-space: pre-wrap;
     white-space: break-spaces;
+    background: transparent;
   }
 
   p {

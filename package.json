@@ -1,13 +1,13 @@
 {
   "name": "editor",
   "version": "1.0.0",
-  "description": "",
+  "description": "Rich text editor for React based on ProseMirror",
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --config ./example/webpack.config.js",
     "build": "tsc"
   },
-  "author": "",
+  "author": "Kenneth Cohen",
   "license": "ISC",
   "devDependencies": {
     "@types/lodash": "^4.14.154",
