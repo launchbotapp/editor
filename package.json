@@ -42,6 +42,7 @@
     "prosemirror-tables": "^1.1.0",
     "prosemirror-utils": "^0.9.6",
     "prosemirror-view": "^1.14.11",
+    "react-portal": "^4.2.1",
     "styled-components": "^5.1.1",
     "typescript": "^3.9.3"
   }

@@ -8,6 +8,7 @@ import { Schema, DOMParser, NodeSpec, MarkSpec } from "prosemirror-model";
 import { keymap } from "prosemirror-keymap"
 import { baseKeymap } from "prosemirror-commands";
 import ExtensionManager from "./lib/ExtensionManager";
+import { FloatingToolbar } from "./components/FloatingToolbar";
 
 // marks
 import {
@@ -243,6 +244,14 @@ class Editor extends React.PureComponent<Props, State> {
           ref={ref => (this.element = ref)}
           readOnly={readOnly}
         />
+
+        {!readOnly && this.view && (
+          <React.Fragment>
+            <FloatingToolbar
+              view={this.view}
+            />
+          </React.Fragment>
+        )}
       </React.Fragment>
     )
   }
