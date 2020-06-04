@@ -33,10 +33,6 @@ export default class OrderedList extends Node {
     };
   }
 
-  commands({ type, schema }) {
-    return () => toggleList(type, schema.nodes.list_item);
-  }
-
   keys({ type, schema }) {
     return {
       "Mod-Shift-8": toggleList(type, schema.nodes.list_item),
