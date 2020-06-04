@@ -35,7 +35,6 @@ export default class Link extends Mark {
   }
 
   keys({ type }) {
-    console.log(this.options)
     return {
       "Mod-k": toggleMark(type, { href: "" }),
     };
@@ -47,7 +46,6 @@ export default class Link extends Mark {
         props: {
           handleDOMEvents: {
             click: (view, event: MouseEvent) => {
-              console.log("click", view, event)
 
               // allow opening links in editing mode with the meta/cmd key
               if (view.props.editable && !event.metaKey) {

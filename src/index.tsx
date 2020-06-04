@@ -4,7 +4,6 @@ import { EditorState, Plugin } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
 import { inputRules, InputRule } from "prosemirror-inputrules";
 import { Schema, DOMParser, NodeSpec, MarkSpec } from "prosemirror-model";
-import { undo, redo, history } from "prosemirror-history"
 import { keymap } from "prosemirror-keymap"
 import { baseKeymap } from "prosemirror-commands";
 import ExtensionManager from "./lib/ExtensionManager";
@@ -25,6 +24,11 @@ import {
   Paragraph,
   Text,
 } from "./nodes";
+
+// plugins
+import {
+  History,
+} from "./plugins";
 
 export type Props = {
   id?: string;
@@ -74,18 +78,22 @@ class Editor extends React.PureComponent<Props, State> {
     return new ExtensionManager(
       [
         new Doc(),
-        
+        // nodes
         new Paragraph(),
         new BulletList(),
         new OrderedList(),
         new ListItem(),
         new Text(),
         
+        // marks
         new Bold(),
         new Italic(),
         new Link({
           onClickLink: this.props.onClickLink,
         }),
+
+        // plugins
+        new History(),
       ],
       this
     );
@@ -160,11 +168,6 @@ class Editor extends React.PureComponent<Props, State> {
       plugins: [
         ...this.plugins,
         ...this.keymaps,
-        history(),
-        keymap({
-          "Mod-z": undo,
-          "Mod-y": redo,
-        }),
         inputRules({
           rules: this.inputRules,
         }),
@@ -229,6 +232,8 @@ class Editor extends React.PureComponent<Props, State> {
 const StyledEditor = styled.div`
   z-index: 1;
   position: relative;
+  font-size: 1em;
+  line-height: 1.7em;
 
   .ProseMirror {
     position: relative;
@@ -253,6 +258,12 @@ const StyledEditor = styled.div`
     ol {
       margin: 0;
     }
+  }
+
+  hr {
+    height: 0;
+    border: 0;
+    border-top: 1px solid #CCCCCC;
   }
 `
 
