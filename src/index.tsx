@@ -38,6 +38,7 @@ export type Props = {
   defaultValue: any;
   onChange: (value: any) => void;
   onClickLink: (href: string) => void;
+  embeds: any[];
 }
 
 type State = {};
@@ -48,6 +49,7 @@ class Editor extends React.PureComponent<Props, State> {
     onClickLink: href => {
       window.open(href, "_blank");
     },
+    embeds: [],
   }
 
   extensions: ExtensionManager;
