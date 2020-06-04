@@ -209,6 +209,7 @@ const StyledEditor = styled("div")`
   width: 100%;
   padding: 1em;
   border-radius: 5px;
+  box-sizing: border-box;
 
   .ProseMirror {
     position: relative;
