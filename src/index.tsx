@@ -202,7 +202,7 @@ class Editor extends React.PureComponent<Props, State> {
   }
 }
 
-const StyledEditor = styled("div")`
+const StyledEditor = styled.div`
   border: 1px solid #CCCCCC;
   font-size: 1em;
   line-height: 1.7em;
