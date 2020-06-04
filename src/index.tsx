@@ -27,6 +27,7 @@ import {
 
 export type Props = {
   id?: string;
+  readOnly?: boolean;
   placeholder: string;
   defaultValue: any;
   onChange: (value: any) => void;
@@ -126,6 +127,7 @@ class Editor extends React.PureComponent<Props, State> {
 
     const view = new EditorView(this.element, {
       state: this.createState(),
+      editable: () => !this.props.readOnly,
       dispatchTransaction: transaction => {
         const { state, transactions } = this.view.state.applyTransaction(
           transaction
