@@ -13,6 +13,7 @@ import ExtensionManager from "./lib/ExtensionManager";
 import {
   Bold,
   Italic,
+  Link,
 } from "./marks";
 
 // nodes
@@ -28,7 +29,8 @@ export type Props = {
   id?: string;
   placeholder: string;
   defaultValue: any;
-  onChange?: (value: any) => void;
+  onChange: (value: any) => void;
+  onClickLink: (href: string) => void;
 }
 
 type State = {};
@@ -36,6 +38,9 @@ type State = {};
 class Editor extends React.PureComponent<Props, State> {
   static defaultProps = {
     defaultValue: "",
+    onClickLink: href => {
+      window.open(href, "_blank");
+    },
   }
 
   extensions: ExtensionManager;
@@ -45,6 +50,7 @@ class Editor extends React.PureComponent<Props, State> {
   marks: { [name: string]: MarkSpec };
   element?: HTMLElement | null;
   schema: Schema;
+  plugins: Plugin[];
   view: EditorView;
   
   componentDidMount() {
@@ -56,6 +62,7 @@ class Editor extends React.PureComponent<Props, State> {
     this.nodes = this.createNodes();
     this.marks = this.createMarks();
     this.schema = this.createSchema();
+    this.plugins = this.createPlugins();
     this.keymaps = this.createKeymaps();
     this.inputRules = this.createInputRules();
     this.view = this.createView();
@@ -73,6 +80,9 @@ class Editor extends React.PureComponent<Props, State> {
         
         new Bold(),
         new Italic(),
+        new Link({
+          onClickLink: this.props.onClickLink,
+        }),
       ],
       this
     );
@@ -91,6 +101,10 @@ class Editor extends React.PureComponent<Props, State> {
       nodes: this.nodes,
       marks: this.marks,
     })
+  }
+
+  createPlugins() {
+    return this.extensions.plugins;
   }
 
   createKeymaps() {
@@ -119,9 +133,14 @@ class Editor extends React.PureComponent<Props, State> {
 
         this.view.updateState(state);
 
+        // If editor content changes, fire handleChange() so external components are aware
         if (transactions.some(tr => tr.docChanged)) {
           this.handleChange();
         }
+
+        // Because Prosemirror and React are not linked we must tell React that
+        // a render is needed whenever the Prosemirror state changes.
+        this.forceUpdate();
       }
     });
     
@@ -135,8 +154,9 @@ class Editor extends React.PureComponent<Props, State> {
       schema: this.schema,
       doc: doc,
       plugins: [
-        history(),
+        ...this.plugins,
         ...this.keymaps,
+        history(),
         keymap({
           "Mod-z": undo,
           "Mod-y": redo,

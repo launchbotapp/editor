@@ -42,6 +42,12 @@ export default class ExtensionManager {
       );
   }
 
+  get plugins() {
+    return this.extensions
+      .filter(extension => extension.plugins)
+      .reduce((allPlugins, { plugins }) => [...allPlugins, ...plugins], []);
+  }
+
   keymaps({ schema }: { schema: Schema }) {
     const extensionKeymaps = this.extensions
       .filter(extension => ["extension"].includes(extension.type))
