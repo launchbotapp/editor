@@ -284,6 +284,30 @@ const StyledEditor = styled.div<{ readOnly?: boolean }>`
     border: 0;
     border-top: 1px solid #CCCCCC;
   }
+
+  a {
+    text-decoration: underline;
+    position: relative;
+
+    &:after {
+      content: '';
+      position: absolute;
+      top: -1px;
+      bottom: -1px;;
+      left: -2px;
+      right: -2px;
+      min-width: 0;
+      opacity: 0;
+      border-radius: 5px;
+    }
+
+    &:hover {
+      &:after {
+        background: blue;
+        opacity: .06;
+      }
+    }
+  }
 `
 
 
