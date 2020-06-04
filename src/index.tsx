@@ -28,6 +28,7 @@ import {
 // plugins
 import {
   History,
+  SmartText,
 } from "./plugins";
 
 export type Props = {
@@ -94,6 +95,7 @@ class Editor extends React.PureComponent<Props, State> {
 
         // plugins
         new History(),
+        new SmartText(),
       ],
       this
     );
