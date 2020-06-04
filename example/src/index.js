@@ -22,12 +22,11 @@ const Button = styled.button`
 `
 
 const Example = () => {
-  const [readOnly, setReadOnly] = useState(true);
+  const [readOnly, setReadOnly] = useState(false);
 
   const handleChange = value => {
     localStorage.setItem("saved", JSON.stringify(value));
   }
-
 
   return (
     <Container>

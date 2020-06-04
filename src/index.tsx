@@ -21,6 +21,7 @@ import {
   Doc,
   BulletList,
   ListItem,
+  OrderedList,
   Paragraph,
   Text,
 } from "./nodes";
@@ -76,6 +77,7 @@ class Editor extends React.PureComponent<Props, State> {
         
         new Paragraph(),
         new BulletList(),
+        new OrderedList(),
         new ListItem(),
         new Text(),
         
