@@ -2,6 +2,7 @@ import * as React from 'react';
 import styled from "styled-components";
 import { EditorState, Plugin } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
+import { gapCursor } from "prosemirror-gapcursor";
 import { inputRules, InputRule } from "prosemirror-inputrules";
 import { Schema, DOMParser, NodeSpec, MarkSpec } from "prosemirror-model";
 import { keymap } from "prosemirror-keymap"
@@ -62,6 +63,18 @@ class Editor extends React.PureComponent<Props, State> {
   
   componentDidMount() {
     this.init();
+
+    if (this.props.readOnly) return;
+  }
+
+  componentDidUpdate(prevProps: Props) {
+    // pass readOnly changes through to underlying editor instance
+    if (prevProps.readOnly !== this.props.readOnly) {
+      this.view.update({
+        ...this.view.props,
+        editable: () => !this.props.readOnly,
+      });
+    }
   }
 
   init() {
@@ -170,6 +183,7 @@ class Editor extends React.PureComponent<Props, State> {
       plugins: [
         ...this.plugins,
         ...this.keymaps,
+        gapCursor(),
         inputRules({
           rules: this.inputRules,
         }),
@@ -215,23 +229,26 @@ class Editor extends React.PureComponent<Props, State> {
   }
   
   handleChange = () => {
-    if (this.props.onChange) {
+    if (this.props.onChange && !this.props.readOnly) {
       this.props.onChange(this.value());
     }
   };
 
   render = () => {
+    const { readOnly } = this.props;
+
     return (
       <React.Fragment>
         <StyledEditor
           ref={ref => (this.element = ref)}
+          readOnly={readOnly}
         />
       </React.Fragment>
     )
   }
 }
 
-const StyledEditor = styled.div`
+const StyledEditor = styled.div<{ readOnly?: boolean }>`
   z-index: 1;
   position: relative;
   font-size: 1em;
