@@ -8,6 +8,7 @@ import { Schema, DOMParser, NodeSpec, MarkSpec } from "prosemirror-model";
 import { keymap } from "prosemirror-keymap"
 import { baseKeymap } from "prosemirror-commands";
 import ExtensionManager from "./lib/ExtensionManager";
+import { FloatingToolbar } from "./components/FloatingToolbar";
 
 // marks
 import {
@@ -56,6 +57,7 @@ class Editor extends React.PureComponent<Props, State> {
   inputRules: InputRule[];
   nodes: { [name: string]: NodeSpec };
   marks: { [name: string]: MarkSpec };
+  commands: Record<string, any>;
   element?: HTMLElement | null;
   schema: Schema;
   plugins: Plugin[];
@@ -86,6 +88,7 @@ class Editor extends React.PureComponent<Props, State> {
     this.keymaps = this.createKeymaps();
     this.inputRules = this.createInputRules();
     this.view = this.createView();
+    this.commands = this.createCommands();
   }
 
   createExtensions() {
@@ -112,6 +115,13 @@ class Editor extends React.PureComponent<Props, State> {
       ],
       this
     );
+  }
+
+  createCommands() {
+    return this.extensions.commands({
+      schema: this.schema,
+      view: this.view,
+    });
   }
 
   createNodes() {
@@ -243,6 +253,15 @@ class Editor extends React.PureComponent<Props, State> {
           ref={ref => (this.element = ref)}
           readOnly={readOnly}
         />
+
+        {!readOnly && this.view && (
+          <React.Fragment>
+            <FloatingToolbar
+              view={this.view}
+              commands={this.commands}
+            />
+          </React.Fragment>
+        )}
       </React.Fragment>
     )
   }

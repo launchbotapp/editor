@@ -91,4 +91,51 @@ export default class ExtensionManager {
       []
     );
   }
+
+  commands({ schema, view }) {
+    return this.extensions
+      .filter(extension => extension.commands)
+      .reduce((allCommands, extension) => {
+        const { name, type } = extension;
+        const commands = {};
+        const value = extension.commands({
+          schema,
+          ...(["node", "mark"].includes(type)
+            ? {
+                type: schema[`${type}s`][name],
+              }
+            : {}),
+        });
+
+        const apply = (callback, attrs) => {
+          if (!view.editable) {
+            return false;
+          }
+          view.focus();
+          return callback(attrs)(view.state, view.dispatch, view);
+        };
+
+        const handle = (_name, _value) => {
+          if (Array.isArray(_value)) {
+            commands[_name] = attrs =>
+              _value.forEach(callback => apply(callback, attrs));
+          } else if (typeof _value === "function") {
+            commands[_name] = attrs => apply(_value, attrs);
+          }
+        };
+
+        if (typeof value === "object") {
+          Object.entries(value).forEach(([commandName, commandValue]) => {
+            handle(commandName, commandValue);
+          });
+        } else {
+          handle(name, value);
+        }
+
+        return {
+          ...allCommands,
+          ...commands,
+        };
+      }, {});
+  }
 }
