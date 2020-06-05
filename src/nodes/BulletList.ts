@@ -18,8 +18,12 @@ export default class BulletList extends Node {
 
   keys({ type, schema }) {
     return {
-      "Mod-Shift-8": toggleList(type, schema.nodes.list_item),
+      "Mod-Shift-7": toggleList(type, schema.nodes.list_item),
     };
+  }
+
+  commands({ type, schema}) {
+    return () => toggleList(type, schema.nodes.list_item)
   }
 
   inputRules({ type }) {

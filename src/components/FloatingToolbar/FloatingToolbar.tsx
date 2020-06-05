@@ -94,6 +94,7 @@ export const FloatingToolbar: React.FC<Props> = ({
           items={formattingMenuItems(state)}
           commands={commands}
           view={view}
+          surface={"dark"}
         />
       </Wrapper>
     </Portal>

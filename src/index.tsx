@@ -1,4 +1,5 @@
-import * as React from 'react';
+import * as React from "react";
+import { useState, useContext } from "react";
 import styled from "styled-components";
 import { EditorState, Plugin } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
@@ -8,6 +9,7 @@ import { Schema, DOMParser, NodeSpec, MarkSpec } from "prosemirror-model";
 import { keymap } from "prosemirror-keymap"
 import { baseKeymap } from "prosemirror-commands";
 import ExtensionManager from "./lib/ExtensionManager";
+import { Toolbar } from "./components/Toolbar";
 import { FloatingToolbar } from "./components/FloatingToolbar";
 
 // marks
@@ -47,7 +49,13 @@ export type Props = {
 
 type State = {};
 
-class Editor extends React.PureComponent<Props, State> {
+function useEditor() {
+  const [editor, setEditor] = useState<Editor>();
+
+
+}
+
+class Editor extends React.PureComponent<Props, State> { 
   static defaultProps = {
     defaultValue: "",
     onClickLink: href => {
@@ -68,8 +76,6 @@ class Editor extends React.PureComponent<Props, State> {
   
   componentDidMount() {
     this.init();
-
-    if (this.props.readOnly) return;
   }
 
   componentDidUpdate(prevProps: Props) {
@@ -256,18 +262,22 @@ class Editor extends React.PureComponent<Props, State> {
 
     return (
       <React.Fragment>
+        {this.view && (
+          <Toolbar
+            view={this.view}
+            commands={this.commands}
+          />
+        )}
         <StyledEditor
           ref={ref => (this.element = ref)}
           readOnly={readOnly}
         />
 
         {!readOnly && this.view && (
-          <React.Fragment>
-            <FloatingToolbar
-              view={this.view}
-              commands={this.commands}
-            />
-          </React.Fragment>
+          <FloatingToolbar
+            view={this.view}
+            commands={this.commands}
+          />
         )}
       </React.Fragment>
     )
@@ -296,19 +306,13 @@ const StyledEditor = styled.div<{ readOnly?: boolean }>`
 
   ul,
   ol {
-    margin: 0 0.1em;
-    padding: 0 0 0 1em;
+    margin: 0 0.2em;
+    padding: 0 0 0 2em;
 
     ul,
     ol {
       margin: 0;
     }
-  }
-
-  hr {
-    height: 0;
-    border: 0;
-    border-top: 1px solid #CCCCCC;
   }
 
   a {

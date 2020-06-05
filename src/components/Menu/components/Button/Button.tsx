@@ -2,20 +2,23 @@ import * as React from "react";
 import styled from "styled-components";
 
 type Props = {
-  active: boolean,
-  onClick: () => void,
-  children: React.ReactNode,
+  active: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+  surface: "light" | "dark";
 }
 
 export const Button: React.FC<Props> = ({
   active,
   onClick,
-  children
+  children,
+  surface,
 }: Props) => {
   return (
     <MenuButton
       onClick={onClick}
       active={active}
+      surface={surface}
     >
       {children}
     </MenuButton>
@@ -24,6 +27,7 @@ export const Button: React.FC<Props> = ({
 
 const MenuButton = styled.button<{
   active: boolean;
+  surface: "light" | "dark";
 }>`
   display: inline-block;
   flex: 0;
@@ -36,10 +40,18 @@ const MenuButton = styled.button<{
   padding: 0;
   opacity: 0.5;
   outline: none;
+  border-radius: 5px;
 
   &:last-child {
     margin-right: 0;
   }
 
-  ${props => props.active && "opacity: 1;"};
+  ${props => props.active && `
+    opacity: 1;
+  `}
+
+  ${props => props.active && props.surface === "light" && `
+    background: #eeeeee;
+  `}
+
 `;
