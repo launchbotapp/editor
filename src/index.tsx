@@ -29,6 +29,7 @@ import {
 
 // plugins
 import {
+  Focus,
   History,
   SmartText,
 } from "./plugins";
@@ -110,6 +111,7 @@ class Editor extends React.PureComponent<Props, State> {
         }),
 
         // plugins
+        new Focus(),
         new History(),
         new SmartText(),
       ],
