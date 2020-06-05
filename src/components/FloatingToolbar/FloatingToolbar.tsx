@@ -40,7 +40,8 @@ export const FloatingToolbar: React.FC<Props> = ({
       !selection ||
       !menuRef.current ||
       selection.empty ||
-      SSR
+      SSR ||
+      !view.hasFocus()
     ) {
       return {
         left: -1000,

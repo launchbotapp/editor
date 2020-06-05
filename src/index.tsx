@@ -29,6 +29,7 @@ import {
 
 // plugins
 import {
+  Focus,
   History,
   SmartText,
 } from "./plugins";
@@ -40,6 +41,8 @@ export type Props = {
   defaultValue: any;
   onChange: (value: any) => void;
   onClickLink: (href: string) => void;
+  onFocus?: () => void;
+  onBlur?: () => void;
 }
 
 type State = {};
@@ -110,6 +113,10 @@ class Editor extends React.PureComponent<Props, State> {
         }),
 
         // plugins
+        new Focus({
+          onFocus: this.props.onFocus,
+          onBlur: this.props.onBlur,
+        }),
         new History(),
         new SmartText(),
       ],
