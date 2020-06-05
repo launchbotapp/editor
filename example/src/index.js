@@ -62,6 +62,9 @@ const Example = () => {
           defaultValue={defaultValue}
           onChange={handleChange}
           readOnly={readOnly}
+          onFocus={() => {
+            console.log("index::onFocus")
+          }}
         />
 
         <Backdrop

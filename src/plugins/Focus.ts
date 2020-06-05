@@ -28,19 +28,19 @@ export default class Focus extends Extension {
         props: {
           handleDOMEvents: {
             focus: (view: EditorView, event: MouseEvent) => {
-              console.log("focus::focus")
               const { state } = view;
               const transaction = state.tr.setMeta('focused', true)
               view.dispatch(transaction)
 
+              this.options.onFocus && this.options.onFocus();
               return true;
             },
             blur: (view: EditorView, event: MouseEvent) => {
-              console.log("focus::blur")
-
               const { state } = view;
               const transaction = state.tr.setMeta('focused', false)
               view.dispatch(transaction)
+
+              this.options.onBlur && this.options.onBlur();
               return true;
             }
           },
