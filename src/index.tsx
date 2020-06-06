@@ -87,8 +87,6 @@ class Editor extends React.PureComponent<Props, State> {
         editable: () => !this.props.readOnly,
       });
     }
-
-    this.setActiveNodes();
   }
 
   init() {
@@ -101,24 +99,6 @@ class Editor extends React.PureComponent<Props, State> {
     this.inputRules = this.createInputRules();
     this.view = this.createView();
     this.commands = this.createCommands();
-    this.setActiveNodes();
-  }
-
-  setActiveNodes() {
-    const t = Object
-      .entries(this.schema.nodes)
-      .reduce((nodes, [name, node]) => {
-        // console.log("reducer::", name, node)
-        const active = isNodeActive(name)(this.view.state)
-        // console.log(active)
-        
-        return {
-          ...nodes,
-          [name]: active
-        }
-      }, {})
-    
-    console.log(t)
   }
 
   createExtensions() {
