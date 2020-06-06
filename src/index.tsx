@@ -1,5 +1,4 @@
 import * as React from "react";
-import { useState, useContext } from "react";
 import styled from "styled-components";
 import { EditorState, Plugin } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
@@ -35,7 +34,6 @@ import {
   History,
   SmartText,
 } from "./plugins";
-import isNodeActive from "./queries/isNodeActive";
 
 export type Props = {
   id?: string;
@@ -49,12 +47,6 @@ export type Props = {
 }
 
 type State = {};
-
-function useEditor() {
-  const [editor, setEditor] = useState<Editor>();
-
-
-}
 
 class Editor extends React.PureComponent<Props, State> { 
   static defaultProps = {
@@ -77,6 +69,9 @@ class Editor extends React.PureComponent<Props, State> {
   
   componentDidMount() {
     this.init();
+    
+    // force re-render after init is complete
+    this.forceUpdate();
   }
 
   componentDidUpdate(prevProps: Props) {
@@ -198,7 +193,7 @@ class Editor extends React.PureComponent<Props, State> {
     return view;
   }
 
-  createState(value?: any) {
+  createState() {
     const doc = this.createDocument(this.props.defaultValue);
 
     return EditorState.create({
@@ -261,6 +256,7 @@ class Editor extends React.PureComponent<Props, State> {
   render = () => {
     const { readOnly } = this.props;
     const toolbarReady = !readOnly && this.view;
+
 
     return (
       <React.Fragment>
@@ -341,6 +337,5 @@ const StyledEditor = styled.div<{ readOnly?: boolean }>`
     }
   }
 `
-
 
 export default Editor;
