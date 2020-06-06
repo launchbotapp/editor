@@ -8,6 +8,7 @@ import { MenuItem } from "./Menu";
 
 export default function formattingMenuItems(state: EditorState): MenuItem[] {
   const { schema } = state;
+
   return [
     {
       name: "strong",
@@ -20,6 +21,6 @@ export default function formattingMenuItems(state: EditorState): MenuItem[] {
       label: "Italic",
       icon: ItalicIcon,
       active: isMarkActive(schema.marks.em),
-    }
+    },
   ];
 }

@@ -9,7 +9,6 @@ const isNodeActive = (type, attrs?: Record<string, any>) => state => {
   const node = findSelectedNodeOfType(type)(state.selection)
     || findParentNode(predicate)(state.selection);
   
-  
   if (!node) {
     return !!node
   }
