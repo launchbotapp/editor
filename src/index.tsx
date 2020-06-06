@@ -35,6 +35,7 @@ import {
   History,
   SmartText,
 } from "./plugins";
+import isNodeActive from "./queries/isNodeActive";
 
 export type Props = {
   id?: string;
@@ -86,6 +87,8 @@ class Editor extends React.PureComponent<Props, State> {
         editable: () => !this.props.readOnly,
       });
     }
+
+    this.setActiveNodes();
   }
 
   init() {
@@ -98,6 +101,24 @@ class Editor extends React.PureComponent<Props, State> {
     this.inputRules = this.createInputRules();
     this.view = this.createView();
     this.commands = this.createCommands();
+    this.setActiveNodes();
+  }
+
+  setActiveNodes() {
+    const t = Object
+      .entries(this.schema.nodes)
+      .reduce((nodes, [name, node]) => {
+        // console.log("reducer::", name, node)
+        const active = isNodeActive(name)(this.view.state)
+        // console.log(active)
+        
+        return {
+          ...nodes,
+          [name]: active
+        }
+      }, {})
+    
+    console.log(t)
   }
 
   createExtensions() {
@@ -259,10 +280,11 @@ class Editor extends React.PureComponent<Props, State> {
 
   render = () => {
     const { readOnly } = this.props;
+    const toolbarReady = !readOnly && this.view;
 
     return (
       <React.Fragment>
-        {this.view && (
+        {toolbarReady && (
           <Toolbar
             view={this.view}
             commands={this.commands}
@@ -273,7 +295,7 @@ class Editor extends React.PureComponent<Props, State> {
           readOnly={readOnly}
         />
 
-        {!readOnly && this.view && (
+        {toolbarReady && (
           <FloatingToolbar
             view={this.view}
             commands={this.commands}

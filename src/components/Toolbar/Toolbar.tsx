@@ -21,7 +21,7 @@ export const Toolbar: React.FC<Props> = ({
     separator,
     ...blockMenuItems(view.state),
   ]
-  
+
   return (
     <StyledToolbar>
       <Menu

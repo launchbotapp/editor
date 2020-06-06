@@ -9,7 +9,9 @@ import { MenuItem } from "./Menu";
 
 export default function blockMenuItems(state: EditorState): MenuItem[] {
   const { schema } = state;
-  console.log(isInList(state))
+
+  console.log(schema)
+  
   return [
     {
       name: "bullet_list",
@@ -17,11 +19,11 @@ export default function blockMenuItems(state: EditorState): MenuItem[] {
       icon: BulletedListIcon,
       active: isNodeActive(schema.nodes.bullet_list),
     },
-    {
-      name: "ordered_list",
-      label: "Ordered List",
-      icon: OrderedListIcon,
-      active: isNodeActive(schema.nodes.ordered_list),
-    },
+    // {
+    //   name: "ordered_list",
+    //   label: "Ordered List",
+    //   icon: OrderedListIcon,
+    //   active: isNodeActive(schema.nodes.ordered_list),
+    // },
   ];
 }
