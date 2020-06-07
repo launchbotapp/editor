@@ -14,9 +14,6 @@
     "type": "git",
     "url": "git+https://github.com/shiplistapp/editor.git"
   },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
-  },
   "devDependencies": {
     "@types/lodash": "^4.14.154",
     "@types/prosemirror-commands": "^1.0.1",
