@@ -1,5 +1,4 @@
 import * as React from "react";
-import _ from "lodash";
 import { Portal } from "react-portal";
 import { useEffect, useState, createRef } from "react";
 import { isEqual } from "lodash";

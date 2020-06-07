@@ -1,7 +1,7 @@
 import * as React from "react";
 import { EditorView } from "prosemirror-view";
 import { EditorState } from "prosemirror-state";
-import _ from "lodash";
+import { map } from "lodash";
 import styled from "styled-components";
 import { Button } from "./components/Button";
 
@@ -29,7 +29,7 @@ export const Menu: React.FC<Props> = ({
 }: Props) => {
   const { state } = view;
 
-  const buttonMarkup = _.map(items, (item: MenuItem, idx: number) => {
+  const buttonMarkup = map(items, (item: MenuItem, idx: number) => {
     if (item.name === "separator") {
       return <ToolbarSeparator key={idx} />;
     }
