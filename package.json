@@ -1,5 +1,5 @@
 {
-  "name": "@shiplistapp/editor",
+  "name": "@launchbot/editor",
   "version": "1.0.0",
   "description": "Rich text editor for React based on ProseMirror",
   "main": "index.js",
