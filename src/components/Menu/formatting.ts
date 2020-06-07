@@ -1,6 +1,7 @@
 import {
   BoldIcon,
   ItalicIcon,
+  StrikethroughIcon,
 } from "outline-icons";
 import { EditorState } from "prosemirror-state";
 import isMarkActive from "../../queries/isMarkActive";
@@ -21,6 +22,12 @@ export default function formattingMenuItems(state: EditorState): MenuItem[] {
       label: "Italic",
       icon: ItalicIcon,
       active: isMarkActive(schema.marks.em),
+    },
+    {
+      name: "strikethrough",
+      label: "Strikethrough",
+      icon: StrikethroughIcon,
+      active: isMarkActive(schema.marks.strikethrough),
     },
   ];
 }

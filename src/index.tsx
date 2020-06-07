@@ -16,6 +16,7 @@ import {
   Bold,
   Italic,
   Link,
+  Strikethrough,
 } from "./marks";
 
 // nodes
@@ -113,6 +114,7 @@ class Editor extends React.PureComponent<Props, State> {
         new Link({
           onClickLink: this.props.onClickLink,
         }),
+        new Strikethrough(),
 
         // plugins
         new Focus({
