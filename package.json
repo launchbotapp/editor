@@ -9,6 +9,13 @@
   },
   "author": "Kenneth Cohen",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shiplistapp/editor"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/@shiplistapp"
+  },
   "devDependencies": {
     "@types/lodash": "^4.14.154",
     "@types/prosemirror-commands": "^1.0.1",
