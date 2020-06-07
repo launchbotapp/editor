@@ -7,8 +7,16 @@
     "start": "webpack-dev-server --config ./example/webpack.config.js",
     "build": "tsc"
   },
-  "author": "Kenneth Cohen",
+  "author": "Kenneth Cohen <kennethacohen@gmail.com>",
+  "homepage": "https://github.com/shiplistapp/editor",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shiplistapp/editor.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/@shiplistapp"
+  },
   "devDependencies": {
     "@types/lodash": "^4.14.154",
     "@types/prosemirror-commands": "^1.0.1",
