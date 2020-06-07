@@ -1,5 +1,5 @@
 {
-  "name": "editor",
+  "name": "@shiplistapp/editor",
   "version": "1.0.0",
   "description": "Rich text editor for React based on ProseMirror",
   "main": "index.js",
@@ -15,7 +15,7 @@
     "url": "git+https://github.com/shiplistapp/editor.git"
   },
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/@shiplistapp"
+    "registry": "https://npm.pkg.github.com"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.154",
