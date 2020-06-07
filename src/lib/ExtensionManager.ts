@@ -22,9 +22,9 @@ export default class ExtensionManager {
     return this.extensions
       .filter(extension => extension.type === "node")
       .reduce(
-        (nodes, node: Node) => ({
+        (nodes, { name, schema }: Node) => ({
           ...nodes,
-          [node.name]: node.schema,
+          [name]: schema,
         }),
         {}
       );

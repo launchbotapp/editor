@@ -3,7 +3,7 @@ import { EditorView } from "prosemirror-view";
 import { EditorState } from "prosemirror-state";
 import _ from "lodash";
 import styled from "styled-components";
-import {Button} from "./components/Button";
+import { Button } from "./components/Button";
 
 export type MenuItem = {
   icon?: typeof React.Component;
@@ -18,30 +18,38 @@ type Props = {
   items: MenuItem[],
   commands: Record<string, any>;
   view: EditorView;
+  surface: "light" | "dark";
 }
 
 export const Menu: React.FC<Props> = ({
   items,
   commands,
   view,
+  surface,
 }: Props) => {
   const { state } = view;
 
-  const buttonMarkup = _.map(items, (item: MenuItem) => {
+  const buttonMarkup = _.map(items, (item: MenuItem, idx: number) => {
+    if (item.name === "separator") {
+      return <ToolbarSeparator key={idx} />;
+    }
+    
     if (!item.icon) {
       return null;
     }
-    
+
     const Icon = item.icon;
     const isActive = item.active ? item.active(state) : false;
+
     return (
       <Button
-        key={item.name}
+        key={idx}
         active={isActive}
         onClick={() => commands[item.name]()}
+        surface={surface}
       >
         <span title={item.label}>
-          <Icon color={"white"} />
+          <Icon color={surface === "light" ? "black" : "white"} />
         </span>
       </Button>
     )
@@ -57,4 +65,13 @@ export const Menu: React.FC<Props> = ({
 const Wrapper = styled.div`
   display: block;
   line-height: 0;
+`;
+
+const ToolbarSeparator = styled.div`
+  height: 24px;
+  width: 1px;
+  background: black;
+  opacity: 0.1;
+  display: inline-block;
+  margin-right: 8px;
 `;

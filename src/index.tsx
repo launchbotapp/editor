@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 import styled from "styled-components";
 import { EditorState, Plugin } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
@@ -8,6 +8,7 @@ import { Schema, DOMParser, NodeSpec, MarkSpec } from "prosemirror-model";
 import { keymap } from "prosemirror-keymap"
 import { baseKeymap } from "prosemirror-commands";
 import ExtensionManager from "./lib/ExtensionManager";
+import { Toolbar } from "./components/Toolbar";
 import { FloatingToolbar } from "./components/FloatingToolbar";
 
 // marks
@@ -15,6 +16,7 @@ import {
   Bold,
   Italic,
   Link,
+  Strikethrough,
 } from "./marks";
 
 // nodes
@@ -47,7 +49,7 @@ export type Props = {
 
 type State = {};
 
-class Editor extends React.PureComponent<Props, State> {
+class Editor extends React.PureComponent<Props, State> { 
   static defaultProps = {
     defaultValue: "",
     onClickLink: href => {
@@ -68,8 +70,9 @@ class Editor extends React.PureComponent<Props, State> {
   
   componentDidMount() {
     this.init();
-
-    if (this.props.readOnly) return;
+    
+    // force re-render after init is complete
+    this.forceUpdate();
   }
 
   componentDidUpdate(prevProps: Props) {
@@ -111,6 +114,7 @@ class Editor extends React.PureComponent<Props, State> {
         new Link({
           onClickLink: this.props.onClickLink,
         }),
+        new Strikethrough(),
 
         // plugins
         new Focus({
@@ -191,7 +195,7 @@ class Editor extends React.PureComponent<Props, State> {
     return view;
   }
 
-  createState(value?: any) {
+  createState() {
     const doc = this.createDocument(this.props.defaultValue);
 
     return EditorState.create({
@@ -253,21 +257,27 @@ class Editor extends React.PureComponent<Props, State> {
 
   render = () => {
     const { readOnly } = this.props;
+    const toolbarReady = !readOnly && this.view;
+
 
     return (
       <React.Fragment>
+        {toolbarReady && (
+          <Toolbar
+            view={this.view}
+            commands={this.commands}
+          />
+        )}
         <StyledEditor
           ref={ref => (this.element = ref)}
           readOnly={readOnly}
         />
 
-        {!readOnly && this.view && (
-          <React.Fragment>
-            <FloatingToolbar
-              view={this.view}
-              commands={this.commands}
-            />
-          </React.Fragment>
+        {toolbarReady && (
+          <FloatingToolbar
+            view={this.view}
+            commands={this.commands}
+          />
         )}
       </React.Fragment>
     )
@@ -296,19 +306,13 @@ const StyledEditor = styled.div<{ readOnly?: boolean }>`
 
   ul,
   ol {
-    margin: 0 0.1em;
-    padding: 0 0 0 1em;
+    margin: 0 0.2em;
+    padding: 0 0 0 2em;
 
     ul,
     ol {
       margin: 0;
     }
-  }
-
-  hr {
-    height: 0;
-    border: 0;
-    border-top: 1px solid #CCCCCC;
   }
 
   a {
@@ -335,6 +339,5 @@ const StyledEditor = styled.div<{ readOnly?: boolean }>`
     }
   }
 `
-
 
 export default Editor;

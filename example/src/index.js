@@ -42,7 +42,6 @@ const Backdrop = styled.div`
 
 const Example = () => {
   const [readOnly, setReadOnly] = useState(false);
-
   const handleChange = value => {
     localStorage.setItem("saved", JSON.stringify(value));
   }
@@ -57,7 +56,7 @@ const Example = () => {
         </Button>
       </div>
       
-      <EditorWrapper>
+      <EditorWrapper>  
         <Editor
           defaultValue={defaultValue}
           onChange={handleChange}

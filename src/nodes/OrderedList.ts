@@ -39,6 +39,10 @@ export default class OrderedList extends Node {
     };
   }
 
+  commands({ type, schema}) {
+    return () => toggleList(type, schema.nodes.list_item)
+  }
+
   inputRules({ type }) {
     return [
       wrappingInputRule(

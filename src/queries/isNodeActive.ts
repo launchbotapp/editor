@@ -1,14 +1,19 @@
+import {
+  findParentNode,
+  findSelectedNodeOfType,
+} from 'prosemirror-utils'
+
 const isNodeActive = (type, attrs?: Record<string, any>) => state => {
-  const { $from, to, node } = state.selection;
-
-  if (node) {
-    return attrs ? node.hasMarkup(type, attrs) : node.type === type;
+  const predicate = node => node.type === type;
+  
+  const node = findSelectedNodeOfType(type)(state.selection)
+    || findParentNode(predicate)(state.selection);
+  
+  if (!node) {
+    return !!node
   }
-
-  return (
-    to <= $from.end() &&
-    (attrs ? $from.parent.hasMarkup(type, attrs) : $from.parent.type === type)
-  );
+  
+  return node.node.hasMarkup(type, { ...node.node.attrs, ...attrs })
 };
 
 export default isNodeActive;
