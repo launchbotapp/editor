@@ -12,7 +12,7 @@
     "jsx": "react",
     "types": ["react"],
     "rootDir": "src",
-    "outDir": "dist/lib",
+    "outDir": "dist",
     "stripInternal": true,
     "removeComments": true,
   },
