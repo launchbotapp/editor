@@ -289,6 +289,7 @@ const StyledEditor = styled.div<{ readOnly?: boolean }>`
   position: relative;
   font-size: 1em;
   line-height: 1.7em;
+  text-align: left;
 
   .ProseMirror {
     position: relative;
