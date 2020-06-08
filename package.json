@@ -1,6 +1,6 @@
 {
   "name": "@launchbot/editor",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Rich text editor for React based on ProseMirror",
   "main": "dist/index.js",
   "scripts": {
