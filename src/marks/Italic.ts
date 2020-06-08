@@ -1,4 +1,5 @@
 import { toggleMark } from "prosemirror-commands";
+import markInputRule from "../lib/markInputRule";
 import Mark from "./Mark";
 
 export default class Italic extends Mark {
@@ -22,5 +23,12 @@ export default class Italic extends Mark {
       "Mod-i": toggleMark(type),
       "Mod-I": toggleMark(type),
     };
+  }
+
+  inputRules({ type }) {
+    return [
+      markInputRule(/(?:^|[^_])(_([^_]+)_)$/, type),
+      markInputRule(/(?:^|[^*])(\*([^*]+)\*)$/, type),
+    ];
   }
 }

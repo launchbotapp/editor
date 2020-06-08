@@ -37,21 +37,24 @@ import {
 } from "./plugins";
 
 export type Props = {
-  id?: string;
+  /** Read-only editor instance */
   readOnly?: boolean;
+  /** Placeholder when editor has no content */
   placeholder: string;
-  defaultValue: any;
+  /** Initial editor content */
+  initialValue?: string | {[key: string]: any};
+  /** Callback fired on content change */
   onChange: (value: any) => void;
+  /** Handler for clicking links in content */
   onClickLink: (href: string) => void;
+  /** Callback when focusing editor */
   onFocus?: () => void;
+  /** Callback when blurring editor */
   onBlur?: () => void;
 }
 
-type State = {};
-
-class Editor extends React.PureComponent<Props, State> { 
+class Editor extends React.PureComponent<Props> { 
   static defaultProps = {
-    defaultValue: "",
     onClickLink: href => {
       window.open(href, "_blank");
     },
@@ -196,7 +199,7 @@ class Editor extends React.PureComponent<Props, State> {
   }
 
   createState() {
-    const doc = this.createDocument(this.props.defaultValue);
+    const doc = this.createDocument(this.props.initialValue);
 
     return EditorState.create({
       schema: this.schema,
