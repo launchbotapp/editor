@@ -58,7 +58,7 @@ const Example = () => {
       
       <EditorWrapper>  
         <Editor
-          defaultValue={defaultValue}
+          initialValue={defaultValue}
           onChange={handleChange}
           readOnly={readOnly}
         />
