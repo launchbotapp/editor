@@ -1,5 +1,4 @@
 import * as React from "react";
-import _ from "lodash";
 import styled from "styled-components";
 import formattingMenuItems from "../Menu/formatting";
 import { EditorView } from "prosemirror-view";
