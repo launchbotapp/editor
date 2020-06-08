@@ -33,6 +33,7 @@ import {
 import {
   Focus,
   History,
+  Placeholder,
   SmartText,
 } from "./plugins";
 
@@ -40,7 +41,7 @@ export type Props = {
   /** Read-only editor instance */
   readOnly?: boolean;
   /** Placeholder when editor has no content */
-  placeholder: string;
+  placeholder?: string;
   /** Initial editor content */
   initialValue?: string | {[key: string]: any};
   /** Callback fired on content change */
@@ -125,6 +126,9 @@ class Editor extends React.PureComponent<Props> {
           onBlur: this.props.onBlur,
         }),
         new History(),
+        new Placeholder({
+          placeholder: this.props.placeholder,
+        }),
         new SmartText(),
       ],
       this
@@ -340,6 +344,16 @@ const StyledEditor = styled.div<{ readOnly?: boolean }>`
         background: blue;
         opacity: .06;
       }
+    }
+  }
+
+  .placeholder {
+    &:before {
+      display: block;
+      content: ${props => (props.readOnly ? "" : "attr(data-empty-text)")};
+      pointer-events: none;
+      height: 0;
+      color: #CCCCCC;
     }
   }
 `

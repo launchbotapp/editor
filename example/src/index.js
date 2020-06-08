@@ -59,6 +59,7 @@ const Example = () => {
       <EditorWrapper>  
         <Editor
           initialValue={defaultValue}
+          placeholder="Start writing..."
           onChange={handleChange}
           readOnly={readOnly}
         />
