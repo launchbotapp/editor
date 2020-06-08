@@ -1,6 +1,6 @@
 {
   "name": "@launchbot/editor",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Rich text editor for React based on ProseMirror",
   "main": "dist/index.js",
   "scripts": {
@@ -14,6 +14,9 @@
     "type": "git",
     "url": "git+https://github.com/shiplistapp/editor.git"
   },
+  "files": [
+    "/dist"
+  ],
   "devDependencies": {
     "@types/lodash": "^4.14.154",
     "@types/prosemirror-commands": "^1.0.1",
