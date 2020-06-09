@@ -1,6 +1,7 @@
 import { Plugin } from "prosemirror-state";
 import { toggleMark } from "prosemirror-commands";
 import Mark from "./Mark";
+import pasteRule from "../commands/pasteRule";
 
 export default class Link extends Mark {
   get name() {
@@ -38,6 +39,26 @@ export default class Link extends Mark {
     return {
       "Mod-k": toggleMark(type, { href: "" }),
     };
+  }
+
+  // commands({ type }) {
+  //   return attrs => {
+  //     if (attrs.href) {
+  //       return updateMark(type, attrs)
+  //     }
+
+  //     return removeMark(type)
+  //   }
+  // }
+
+  pasteRules({ type }) {
+    return [
+      pasteRule(
+        /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-zA-Z]{2,}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/g,
+        type,
+        url => ({ href: url }),
+      ),
+    ]
   }
 
   get plugins() {

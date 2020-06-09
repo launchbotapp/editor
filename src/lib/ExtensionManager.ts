@@ -92,6 +92,29 @@ export default class ExtensionManager {
     );
   }
 
+  pasteRules({ schema }: { schema: Schema }) {
+    const extensionPasteRules = this.extensions
+      .filter(extension => ["extension"].includes(extension.type))
+      .filter(extension => extension.pasteRules)
+      .map(extension => extension.pasteRules({ schema }));
+    
+    const nodeMarkPasteRules = this.extensions
+      .filter(extension => ['node', 'mark'].includes(extension.type))
+      .filter(extension => extension.pasteRules)
+      .map(extension => extension.pasteRules({
+        type: schema[`${extension.type}s`][extension.name],
+        schema,
+      }))
+    
+    return [
+      ...extensionPasteRules,
+      ...nodeMarkPasteRules,
+    ].reduce((allPasteRules, pasteRules) => ([
+      ...allPasteRules,
+      ...pasteRules,
+    ]), []);
+  }
+
   commands({ schema, view }) {
     return this.extensions
       .filter(extension => extension.commands)

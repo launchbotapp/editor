@@ -64,6 +64,7 @@ class Editor extends React.PureComponent<Props> {
   extensions: ExtensionManager;
   keymaps: Plugin[];
   inputRules: InputRule[];
+  pasteRules: any[];
   nodes: { [name: string]: NodeSpec };
   marks: { [name: string]: MarkSpec };
   commands: Record<string, any>;
@@ -97,6 +98,7 @@ class Editor extends React.PureComponent<Props> {
     this.plugins = this.createPlugins();
     this.keymaps = this.createKeymaps();
     this.inputRules = this.createInputRules();
+    this.pasteRules = this.createPasteRules();
     this.view = this.createView();
     this.commands = this.createCommands();
   }
@@ -173,6 +175,12 @@ class Editor extends React.PureComponent<Props> {
     });
   }
 
+  createPasteRules() {
+    return this.extensions.pasteRules({
+      schema: this.schema,
+    });
+  }
+
   createView() {
     if (!this.element) {
       throw new Error("createView called before ref available");
@@ -215,6 +223,7 @@ class Editor extends React.PureComponent<Props> {
         inputRules({
           rules: this.inputRules,
         }),
+        ...this.pasteRules,
         keymap(baseKeymap),
       ]
     })
@@ -298,6 +307,16 @@ const StyledEditor = styled.div<{ readOnly?: boolean }>`
   line-height: 1.7em;
   text-align: left;
 
+  ${props => props.readOnly && `
+    a:hover {
+      &:after {
+        background: blue;
+        display: inline;
+        opacity: .06;
+      }
+    }
+  `}
+
   .ProseMirror {
     position: relative;
     outline: none;
@@ -335,15 +354,8 @@ const StyledEditor = styled.div<{ readOnly?: boolean }>`
       left: -2px;
       right: -2px;
       min-width: 0;
-      opacity: 0;
+      display: none;
       border-radius: 5px;
-    }
-
-    &:hover {
-      &:after {
-        background: blue;
-        opacity: .06;
-      }
     }
   }
 
