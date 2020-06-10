@@ -3,9 +3,12 @@ import { Portal } from "react-portal";
 import { useEffect, useState, createRef } from "react";
 import { isEqual } from "lodash";
 import styled from "styled-components";
+import isMarkActive from "../../queries/isMarkActive";
+import getMarkRange from "../../queries/getMarkRange";
+import formattingMenuItems from "../Menu/formatting";
 import { EditorView } from "prosemirror-view";
 import { Menu } from "../Menu";
-import formattingMenuItems from "../Menu/formatting";
+import { LinkEditor } from "../LinkEditor";
 const SSR = typeof window === "undefined";
 
 type Props = {
@@ -18,18 +21,22 @@ type Position = {
   top: number;
 }
 
+const menuRef = createRef<HTMLDivElement>();
+
 export const FloatingToolbar: React.FC<Props> = ({
   view,
   commands,
 }: Props) => {
-  const menuRef = createRef<HTMLDivElement>();
+  const { state } = view;
+  const { selection } = state;
   const [position, setPosition] = useState<Position>({
     top: 0,
     left: -1000,
   });
-  const { state } = view;
-  const { selection } = state;
+
   const isActive = !selection.empty;
+  const link = isMarkActive(state.schema.marks.link)(state);
+  const range = getMarkRange(selection.$from, state.schema.marks.link)
 
   const getPosition = () => {
     // If there is no selection, the selection is empty or the selection is a
@@ -43,7 +50,7 @@ export const FloatingToolbar: React.FC<Props> = ({
       !view.hasFocus()
     ) {
       return {
-        left: -1000,
+        left: 0,
         top: 0,
       };
     }
@@ -79,7 +86,7 @@ export const FloatingToolbar: React.FC<Props> = ({
     if (!isEqual(newPosition, position)) {
       setPosition(newPosition);
     }
-  });
+  }, [selection]);
 
   return (
     <Portal>
@@ -89,12 +96,19 @@ export const FloatingToolbar: React.FC<Props> = ({
         top={position.top}
         left={position.left}
       >
-        <Menu
-          items={formattingMenuItems(state)}
-          commands={commands}
-          view={view}
-          surface={"dark"}
-        />
+        {link && range ? (
+          <LinkEditor
+            mark={range.mark}
+            view={view}
+          />
+        ) : (
+          <Menu
+            items={formattingMenuItems(state)}
+            commands={commands}
+            view={view}
+            surface={"light"}
+          />
+        )}
       </Wrapper>
     </Portal>
   )
@@ -106,11 +120,28 @@ const Wrapper = styled.div<{
   left: number;
 }>`
   position: absolute;
+  display: flex;
+  align-items: center;
   top: ${props => props.top}px;
   left: ${props => props.left}px;
-  background: black;
-  color: white;
+  background: white;
+  color: black;
   z-index: 999;
-  padding: 0.4em;
+  padding: 0.4em 0.8em;
+  height: 40px;
+  box-sizing: border-box;
   border-radius: 5px;
+  pointer-events: none;
+  white-space: nowrap;
+  border: 1px solid #CCCCCC;
+  box-shadow: rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+  visibility: hidden;
+
+  ${({ active }) =>
+    active &&
+    `
+    transform: translateY(-6px) scale(1);
+    pointer-events: all;
+    visibility: visible;
+  `};
 `;

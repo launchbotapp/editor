@@ -41,15 +41,9 @@ export default class Link extends Mark {
     };
   }
 
-  // commands({ type }) {
-  //   return attrs => {
-  //     if (attrs.href) {
-  //       return updateMark(type, attrs)
-  //     }
-
-  //     return removeMark(type)
-  //   }
-  // }
+  commands({ type }) {
+    return ({ href } = { href: "" }) => toggleMark(type, { href });
+  }
 
   pasteRules({ type }) {
     return [

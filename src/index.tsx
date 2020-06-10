@@ -273,8 +273,7 @@ class Editor extends React.PureComponent<Props> {
 
   render = () => {
     const { readOnly } = this.props;
-    const toolbarReady = !readOnly && this.view;
-
+    const toolbarReady = !readOnly && !!this.view;
 
     return (
       <React.Fragment>

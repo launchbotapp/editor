@@ -12,8 +12,6 @@ export default function pasteRule(regexp: RegExp, type: MarkType, getAttrs: any)
         let pos = 0;
         let match: RegExpExecArray | null;
 
-        console.log("text::", text)
-
         do {
           match = regexp.exec(text);
 
@@ -27,11 +25,10 @@ export default function pasteRule(regexp: RegExp, type: MarkType, getAttrs: any)
               nodes.push(child.cut(pos, start));
             }
 
-            console.log("original::", child)
-            const updated = child.cut(start, end).mark(type.create(attrs).addToSet(child.marks));
-            console.log("new::", updated)
-
-            nodes.push(updated)
+            nodes.push(child
+              .cut(start, end)
+              .mark(type.create(attrs).addToSet(child.marks))
+            )
 
             pos = end;
           }
