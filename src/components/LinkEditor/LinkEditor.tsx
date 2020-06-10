@@ -38,7 +38,6 @@ export const LinkEditor: React.FC<Props> = ({
     event.preventDefault();
     
     const href = getCleanHref();
-    console.log(`handleSubmit::${href}`)
     save(href);
   }
 
@@ -58,14 +57,16 @@ export const LinkEditor: React.FC<Props> = ({
   return (
     <Wrapper>
       <form onSubmit={handleSubmit}>
-        <Input
-          type="text"
-          value={value}
-          placeholder="https://"
-          onChange={handleChange}
-        />
+        <Form>
+          <Input
+            type="text"
+            value={value}
+            placeholder="https://"
+            onChange={handleChange}
+          />
 
-        <button type="submit">apply</button>
+          <ApplyButton type="submit">Apply</ApplyButton>
+        </Form>
       </form>
     </Wrapper>
   )
@@ -76,12 +77,29 @@ const Wrapper = styled.div`
   position: relative;
 `;
 
+const Form = styled.div`
+  padding: 0.8em;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-end;
+`;
+
 const Input = styled.input`
-  font-size: 1em;
+  font-size: 0.875em;
   border-radius: 3px;
   padding: 0.4em;
   border: 1px solid #CCCCCC;
   margin: 0;
   outline: none;
   flex-grow: 1;
+`;
+
+const ApplyButton = styled.button`
+  border: 0;
+  border-radius: 3px;
+  background: black;
+  color: white;
+  height: 24px;
+  margin-top: 0.8em;
+  cursor: pointer;
 `;

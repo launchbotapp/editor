@@ -29,12 +29,17 @@ export const FloatingToolbar: React.FC<Props> = ({
 }: Props) => {
   const { state } = view;
   const { selection } = state;
+  const [isActive, setIsActive] = useState<boolean>(false);
   const [position, setPosition] = useState<Position>({
     top: 0,
     left: -1000,
   });
 
-  const isActive = !selection.empty;
+  useEffect(() => {
+    console.log("ue::selection", selection, selection.empty)
+    setIsActive(!selection.empty);
+  }, [selection]);
+
   const link = isMarkActive(state.schema.marks.link)(state);
   const range = getMarkRange(selection.$from, state.schema.marks.link)
 
@@ -50,8 +55,8 @@ export const FloatingToolbar: React.FC<Props> = ({
       !view.hasFocus()
     ) {
       return {
-        left: 0,
         top: 0,
+        left: -1000,
       };
     }
 
@@ -102,12 +107,14 @@ export const FloatingToolbar: React.FC<Props> = ({
             view={view}
           />
         ) : (
-          <Menu
-            items={formattingMenuItems(state)}
-            commands={commands}
-            view={view}
-            surface={"light"}
-          />
+          <MenuWrapper>
+            <Menu
+              items={formattingMenuItems(state)}
+              commands={commands}
+              view={view}
+              surface={"light"}
+            />
+          </MenuWrapper>
         )}
       </Wrapper>
     </Portal>
@@ -127,8 +134,6 @@ const Wrapper = styled.div<{
   background: white;
   color: black;
   z-index: 999;
-  padding: 0.4em 0.8em;
-  height: 40px;
   box-sizing: border-box;
   border-radius: 5px;
   pointer-events: none;
@@ -144,4 +149,8 @@ const Wrapper = styled.div<{
     pointer-events: all;
     visibility: visible;
   `};
+`;
+
+const MenuWrapper = styled.div`
+  padding: 0.4em 0.8em;
 `;
