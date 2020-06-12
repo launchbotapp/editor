@@ -14,10 +14,12 @@ export const LinkEditor: React.FC<Props> = ({
   mark,
   view,
 }: Props) => {
-  const [value, setValue] = useState<string>("");
+  const [value, setValue] = useState<string>(mark.attrs.href || "");
   const handleChange = (event) => {
     setValue(event.target.value.trim());
   }
+
+  console.log("linkEditor", mark)
 
   const getCleanHref = () => {
     let href = (value || "").trim();
