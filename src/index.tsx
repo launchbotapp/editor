@@ -35,6 +35,7 @@ import {
   History,
   Placeholder,
   SmartText,
+  TrailingNode,
 } from "./plugins";
 
 export type Props = {
@@ -132,6 +133,7 @@ class Editor extends React.PureComponent<Props> {
           placeholder: this.props.placeholder,
         }),
         new SmartText(),
+        new TrailingNode(),
       ],
       this
     );
