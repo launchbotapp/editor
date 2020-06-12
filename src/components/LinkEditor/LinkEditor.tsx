@@ -64,15 +64,21 @@ export const LinkEditor: React.FC<Props> = ({
         } else {
           handleRemoveMark();
         }
+        
         return;
       }
 
       case "Enter": {
         event.preventDefault();
         
-        const href = getCleanHref();
-        save(href);
-        moveSelectionToEnd();
+        if (value && value.length) {
+          const href = getCleanHref();
+          save(href);
+          moveSelectionToEnd();
+        } else {
+          handleRemoveMark();
+        }
+
         return;
       }
     }
