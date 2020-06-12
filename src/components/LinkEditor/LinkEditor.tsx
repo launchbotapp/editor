@@ -2,7 +2,7 @@ import * as React from "react";
 import { useState } from "react";
 import { EditorView } from "prosemirror-view";
 import { Mark } from "prosemirror-model";
-import isUrl from "../../lib/isUrl";
+import { toFormattedUrl } from "../../lib/isUrl";
 import styled from "styled-components";
 
 type Props = {
@@ -27,9 +27,7 @@ export const LinkEditor: React.FC<Props> = ({
 
     // If the input doesn't start with a protocol or relative slash, make sure
     // a protocol is added to the beginning
-    if (!isUrl(href) && !href.startsWith("/")) {
-      href = `https://${href}`;
-    }
+    href = toFormattedUrl(href);
 
     return href;
   }

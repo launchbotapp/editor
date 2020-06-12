@@ -36,7 +36,6 @@ export const FloatingToolbar: React.FC<Props> = ({
   });
 
   useEffect(() => {
-    console.log("ue::selection", selection, selection.empty)
     setIsActive(!selection.empty);
   }, [selection]);
 

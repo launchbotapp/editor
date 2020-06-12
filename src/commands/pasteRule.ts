@@ -16,7 +16,6 @@ export default function pasteRule(regexp: RegExp, type: MarkType, getAttrs: any)
           match = regexp.exec(text);
 
           if (match) {
-            console.log("has match")
             const start = match.index;
             const end = start + match[0].length;
             const attrs = getAttrs instanceof Function ? getAttrs(match[0]) : getAttrs;

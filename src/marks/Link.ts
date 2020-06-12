@@ -1,6 +1,7 @@
 import { Plugin } from "prosemirror-state";
 import { toggleMark } from "prosemirror-commands";
 import Mark from "./Mark";
+import markInputRule from "../lib/markInputRule";
 import pasteRule from "../commands/pasteRule";
 
 export default class Link extends Mark {
@@ -45,10 +46,20 @@ export default class Link extends Mark {
     return ({ href } = { href: "" }) => toggleMark(type, { href });
   }
 
+  inputRules({ type }) {
+    return [
+      markInputRule(
+        /(?:(?:(https|http)+):\/\/)?(?:\S+(?::\S*)?(@))?(?:(?:([a-z0-9][a-z0-9\-]*)?[a-z0-9]+)(?:\.(?:[a-z0-9\-])*[a-z0-9]+)*(?:\.(?:[a-z]{2,})(:\d{1,5})?))(?:\/[^\s]*)?\s$/gi,
+        type,
+        url => ({ href: url }),
+      )
+    ];
+  }
+
   pasteRules({ type }) {
     return [
       pasteRule(
-        /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-zA-Z]{2,}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/g,
+        /(https|http)?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-zA-Z]{2,}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/g,
         type,
         url => ({ href: url }),
       ),
