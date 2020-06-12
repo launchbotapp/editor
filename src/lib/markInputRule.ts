@@ -64,7 +64,7 @@ export default function(
         );
 
         if (excludedMarks.length) {
-          return tr;
+          return false;
         }
 
         if (textEnd < matchEnd) {
