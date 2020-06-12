@@ -1,6 +1,7 @@
 import {
   BoldIcon,
   ItalicIcon,
+  LinkIcon,
   StrikethroughIcon,
 } from "outline-icons";
 import { EditorState } from "prosemirror-state";
@@ -28,6 +29,13 @@ export default function formattingMenuItems(state: EditorState): MenuItem[] {
       label: "Strikethrough",
       icon: StrikethroughIcon,
       active: isMarkActive(schema.marks.strikethrough),
+    },
+    {
+      name: "link",
+      label: "Create link",
+      icon: LinkIcon,
+      active: isMarkActive(schema.marks.link),
+      attrs: { href: "" },
     },
   ];
 }

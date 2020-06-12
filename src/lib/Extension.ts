@@ -40,6 +40,10 @@ export default class Extension {
     return [];
   }
 
+  pasteRules(options): any[] {
+    return [];
+  }
+
   commands(options): Record<string, Command> | Command {
     return attrs => () => false;
   }
