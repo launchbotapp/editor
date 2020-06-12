@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useState } from "react";
+import { setTextSelection } from "prosemirror-utils";
 import { EditorView } from "prosemirror-view";
 import { Mark } from "prosemirror-model";
 import { toFormattedUrl } from "../../lib/isUrl";
@@ -19,12 +20,10 @@ export const LinkEditor: React.FC<Props> = ({
     setValue(event.target.value.trim());
   }
 
-  console.log("linkEditor", mark)
-
   const getCleanHref = () => {
     let href = (value || "").trim();
     if (!href) {
-      console.log("remove mark")
+      handleRemoveMark();
     }
 
     // If the input doesn't start with a protocol or relative slash, make sure
@@ -39,6 +38,7 @@ export const LinkEditor: React.FC<Props> = ({
     
     const href = getCleanHref();
     save(href);
+    moveSelectionToEnd();
   }
 
   const save = (href: string): void => {
@@ -54,6 +54,47 @@ export const LinkEditor: React.FC<Props> = ({
     );
   }
 
+  const handleKeyDown = (event: React.KeyboardEvent): void => {
+    switch(event.key) {
+      case "Escape": {
+        event.preventDefault();
+
+        if (mark.attrs.href) {
+          setValue(mark.attrs.href);
+        } else {
+          handleRemoveMark();
+        }
+        return;
+      }
+
+      case "Enter": {
+        event.preventDefault();
+        
+        const href = getCleanHref();
+        save(href);
+        moveSelectionToEnd();
+        return;
+      }
+    }
+  }
+
+  const handleRemoveMark = (): void => {
+    const { state, dispatch } = view;
+    const { selection } = state;
+    const { from, to } = selection;
+    const mark = state.schema.marks.link;
+
+    dispatch(state.tr.removeMark(from, to, mark));
+    view.focus();
+  }
+
+  const moveSelectionToEnd = (): void => {
+    const { state, dispatch } = view;
+    const { selection } = state;
+    dispatch(setTextSelection(selection.to)(state.tr));
+    view.focus();
+  };
+
   return (
     <Wrapper>
       <form onSubmit={handleSubmit}>
@@ -63,6 +104,8 @@ export const LinkEditor: React.FC<Props> = ({
             value={value}
             placeholder="https://"
             onChange={handleChange}
+            onKeyDown={handleKeyDown}
+            autoFocus
           />
 
           <ApplyButton type="submit">Apply</ApplyButton>

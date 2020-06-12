@@ -50,8 +50,7 @@ export const FloatingToolbar: React.FC<Props> = ({
       !selection ||
       !menuRef.current ||
       selection.empty ||
-      SSR ||
-      !view.hasFocus()
+      SSR
     ) {
       return {
         top: 0,
