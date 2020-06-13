@@ -18,14 +18,12 @@ type Props = {
   items: MenuItem[],
   commands: Record<string, any>;
   view: EditorView;
-  surface: "light" | "dark";
 }
 
 export const Menu: React.FC<Props> = ({
   items,
   commands,
   view,
-  surface,
 }: Props) => {
   const { state } = view;
 
@@ -46,11 +44,10 @@ export const Menu: React.FC<Props> = ({
         key={idx}
         active={isActive}
         onClick={() => commands[item.name]()}
-        surface={surface}
       >
-        <span title={item.label}>
-          <Icon color={surface === "light" ? "black" : "white"} />
-        </span>
+        <IconWrapper title={item.label}>
+          <Icon />
+        </IconWrapper>
       </Button>
     )
   });
@@ -67,11 +64,16 @@ const Wrapper = styled.div`
   line-height: 0;
 `;
 
+const IconWrapper = styled.span`
+  svg {
+    fill: ${props => props.theme.iconColor}
+  }
+`;
+
 const ToolbarSeparator = styled.div`
   height: 24px;
   width: 1px;
-  background: black;
-  opacity: 0.1;
+  background: ${props => props.theme.borderColor};
   display: inline-block;
   margin-right: 8px;
 `;

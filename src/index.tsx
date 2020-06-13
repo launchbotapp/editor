@@ -1,5 +1,5 @@
 import * as React from "react";
-import styled from "styled-components";
+import styled, { ThemeProvider } from "styled-components";
 import { EditorState, Plugin } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
 import { gapCursor } from "prosemirror-gapcursor";
@@ -8,6 +8,7 @@ import { Schema, DOMParser, NodeSpec, MarkSpec } from "prosemirror-model";
 import { keymap } from "prosemirror-keymap"
 import { baseKeymap } from "prosemirror-commands";
 import ExtensionManager from "./lib/ExtensionManager";
+import { lightTheme, darkTheme } from "./theme";
 import { Toolbar } from "./components/Toolbar";
 import { FloatingToolbar } from "./components/FloatingToolbar";
 
@@ -53,6 +54,8 @@ export type Props = {
   onFocus?: () => void;
   /** Callback when blurring editor */
   onBlur?: () => void;
+  /** Color theme */
+  theme?: typeof lightTheme;
 }
 
 class Editor extends React.PureComponent<Props> { 
@@ -60,6 +63,7 @@ class Editor extends React.PureComponent<Props> {
     onClickLink: href => {
       window.open(href, "_blank");
     },
+    theme: lightTheme,
   }
 
   extensions: ExtensionManager;
@@ -275,34 +279,45 @@ class Editor extends React.PureComponent<Props> {
 
   render = () => {
     const { readOnly } = this.props;
+    const theme = this.props.theme;
     const toolbarReady = !readOnly && !!this.view;
 
     return (
-      <React.Fragment>
-        {toolbarReady && (
-          <Toolbar
-            view={this.view}
-            commands={this.commands}
+      <ThemeProvider theme={theme || lightTheme}>
+        <EditorWrapper>
+          {toolbarReady && (
+            <Toolbar
+              view={this.view}
+              commands={this.commands}
+            />
+          )}
+          <StyledEditor
+            ref={ref => (this.element = ref)}
+            readOnly={readOnly}
           />
-        )}
-        <StyledEditor
-          ref={ref => (this.element = ref)}
-          readOnly={readOnly}
-        />
 
-        {toolbarReady && (
-          <FloatingToolbar
-            view={this.view}
-            commands={this.commands}
-          />
-        )}
-      </React.Fragment>
+          {toolbarReady && (
+            <FloatingToolbar
+              view={this.view}
+              commands={this.commands}
+            />
+          )}
+        </EditorWrapper>
+      </ThemeProvider>
     )
   }
 }
 
+const EditorWrapper = styled.div`
+  background: ${props => props.theme.backgroundColor};
+  color: ${props => props.theme.textColor};
+
+`;
+
 const StyledEditor = styled.div<{ readOnly?: boolean }>`
-  z-index: 1;
+  color: ${props => props.theme.textColor};
+  background: ${props => props.theme.backgroundColor};
+  font-family: ${props => props.theme.fontFamily};
   position: relative;
   font-size: 1em;
   line-height: 1.7em;
