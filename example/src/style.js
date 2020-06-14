@@ -2,17 +2,18 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   font-family: -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1em;
 `;
 
 export const Controls = styled.div`
   display: flex;
-  width: 100%;
   justify-content: space-between;
 `;
 
 export const Control = styled.div`
-  height: 38px;
-  min-width: 200px;f
+  width: 200px;
 `;
 
 export const Button = styled.button`

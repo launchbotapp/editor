@@ -1,4 +1,4 @@
-export const weirdTheme = {
+export const unicornTheme = {
   textColor: "#FFEE35",
   backgroundColor: "#C839F1",
   backgroundAccentColor: "#F92D0B",
