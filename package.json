@@ -6,7 +6,7 @@
   "scripts": {
     "start": "webpack-dev-server --config ./example/webpack.config.js",
     "build": "tsc",
-    "build:demo": "webpack ----config ./example/webpack.config.js"
+    "build:demo": "webpack --config ./example/webpack.config.js"
   },
   "author": "Kenneth Cohen <kennethacohen@gmail.com>",
   "homepage": "https://github.com/shiplistapp/editor",
