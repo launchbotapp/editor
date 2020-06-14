@@ -1,6 +1,6 @@
 {
-  "name": "@launchbot/editor",
-  "version": "1.0.4",
+  "name": "@productperson/editor",
+  "version": "1.0.0",
   "description": "Rich text editor for React based on ProseMirror",
   "main": "dist/index.js",
   "scripts": {
@@ -9,11 +9,11 @@
     "build:demo": "webpack --config ./example/webpack.config.js"
   },
   "author": "Kenneth Cohen <kennethacohen@gmail.com>",
-  "homepage": "https://github.com/shiplistapp/editor",
+  "homepage": "https://github.com/launchbotapp/editor",
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/shiplistapp/editor.git"
+    "url": "git+https://github.com/launchbotapp/editor.git"
   },
   "files": [
     "/dist"
