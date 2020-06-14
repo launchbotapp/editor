@@ -20,8 +20,7 @@ const element = document.getElementById("main");
 
 // storing text to local storage for demo
 const savedText = localStorage.getItem("saved");
-const exampleText = "This is fallback text...";
-const defaultValue = JSON.parse(savedText) || exampleText;
+const defaultValue = JSON.parse(savedText) || null;
 
 // define demo theme options
 const themeOptions = [
