@@ -1,6 +1,6 @@
 {
   "name": "@productperson/editor",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Rich text editor for React based on ProseMirror",
   "main": "dist/index.js",
   "scripts": {
@@ -16,7 +16,8 @@
     "url": "git+https://github.com/launchbotapp/editor.git"
   },
   "files": [
-    "/dist"
+    "/dist",
+    "/example"
   ],
   "devDependencies": {
     "@types/lodash": "^4.14.154",
