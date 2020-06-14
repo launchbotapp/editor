@@ -1,6 +1,6 @@
 {
   "name": "@productperson/editor",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Rich text editor for React based on ProseMirror",
   "main": "dist/index.js",
   "scripts": {
