@@ -12,7 +12,7 @@ Just a simple, themable, rich-*ish* text editor for React. Can it do everything?
 > ⚠️ This editor was built to support [Launchbot](https://www.launchbot.app). If you are looking for something more powerful (i.e. inline images, custom view components, embeds), look elsewhere. While we may add these features over time, ARTE isn't there today. Check out [Remirror](https://github.com/remirror/remirror), or try building something from scratch using Prosemirror.
 
 ## Demo
-Live demo running [here](https://editor.launchbot.vercel.app/), or clone the repo to run the [example usage locally](#local-development).
+Live demo running [here](https://editor.productperson.vercel.app/), or clone the repo to [run the example locally](#local-development).
 
 ## Usage
 
