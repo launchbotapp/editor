@@ -3,7 +3,7 @@ Another Rich Text Editor
 
 ![demo](support/assets/demo-colors.gif)
 
-Just a simple, everyday themable rich-ish text editor for React. Can it do everything? No. But it can do more than nothing and is super easy to use. ARTE is built on top of [Prosemirror](https://prosemirror.net).
+Just a simple, everyday themable rich-ish text editor for React. Can it do everything? No. But it can do more than nothing and is super easy to use. ARTE is written in Typescript and built on top of [Prosemirror](https://prosemirror.net).
 
 > ⚠️ If you are looking for something more powerful (i.e. inline images, custom view components, embeds), look elsewhere. While we may add these features over time, ARTE isn't there today. Check out [Remirror](https://github.com/remirror/remirror), or try building something from scratch using Prosemirror.
 
@@ -16,8 +16,15 @@ Live demo running [here](https://editor.launchbot.vercel.app/), or clone the rep
 ```javascript
 import Editor from "rich-markdown-editor";
 
+const handleChange = value => {
+  // or store in database, save to form state etc.
+  localStorage.setItem("saved", JSON.stringify(value));
+}
+
 <Editor
-  initialValue={"Hello, world"}
+  readOnly={false}
+  placeholder={"A thousand words are worth...a thousand words"}
+  onChange={handleChange}
 />
 ```
 
