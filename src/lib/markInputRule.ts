@@ -1,6 +1,6 @@
 import { MarkType, Mark } from "prosemirror-model";
 import { InputRule } from "prosemirror-inputrules";
-import { EditorState } from "prosemirror-state";
+import { EditorState, Transaction } from "prosemirror-state";
 import { toFormattedUrl } from "../lib/isUrl";
 
 function getMarksBetween(start: number, end: number, state: EditorState) {
@@ -27,7 +27,7 @@ export default function(
 ): InputRule {
   return new InputRule(
     regexp,
-    (state: EditorState, match: string[], start: number, end: number) => {
+    (state: EditorState, match: string[], start: number, end: number): Transaction | null => {
 
       const attrs = getAttrs instanceof Function ? getAttrs(match) : getAttrs;
 
@@ -64,7 +64,7 @@ export default function(
         );
 
         if (excludedMarks.length) {
-          return false;
+          return null;
         }
 
         if (textEnd < matchEnd) {
