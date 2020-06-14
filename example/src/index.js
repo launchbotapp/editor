@@ -6,7 +6,7 @@ import Select from "react-select";
 
 import Editor from "../../src";
 import { lightTheme, darkTheme } from "../../src/theme";
-import { weirdTheme } from "./theme";
+import { unicornTheme } from "./theme";
 import {
   Container,
   Controls,
@@ -23,9 +23,9 @@ const defaultValue = JSON.parse(savedText) || null;
 
 // define demo theme options
 const themeOptions = [
-  { value: "light", label: "Light", theme: lightTheme},
-  { value: "dark", label: "Dark", theme: darkTheme},
-  { value: "weird", label: "Weird", theme: weirdTheme},
+  { value: "light", label: "🌞 Light", theme: lightTheme},
+  { value: "dark", label: "🌜 Dark", theme: darkTheme},
+  { value: "weird", label: "🦄 Unicorn", theme: unicornTheme},
 ]
 
 const Example = () => {
