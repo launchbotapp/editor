@@ -17,8 +17,12 @@ Live demo running [here](https://editor.launchbot.vercel.app/), or clone the rep
 ## Usage
 
 ### Installation
+```bash
+npm install @productperson/editor --save
+```
+
 ```javascript
-import Editor from "@launchbot/editor";
+import Editor from "@productperson/editor";
 
 const handleChange = value => {
   // or store in database, save to form state etc.
