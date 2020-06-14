@@ -17,6 +17,10 @@ Live demo running [here](https://editor.launchbot.vercel.app/), or clone the rep
 ## Usage
 
 ### Installation
+```bash
+npm install @productperson/editor --save
+```
+
 ```javascript
 import Editor from "@productperson/editor";
 
