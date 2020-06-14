@@ -4,7 +4,6 @@ import ReactDOM from "react-dom";
 import _ from "lodash";
 import Select from "react-select";
 
-
 import Editor from "../../src";
 import { lightTheme, darkTheme } from "../../src/theme";
 import { weirdTheme } from "./theme";
