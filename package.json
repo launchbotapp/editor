@@ -16,7 +16,8 @@
     "url": "git+https://github.com/launchbotapp/editor.git"
   },
   "files": [
-    "/dist"
+    "/dist",
+    "/example"
   ],
   "devDependencies": {
     "@types/lodash": "^4.14.154",
