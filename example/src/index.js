@@ -33,6 +33,7 @@ const Example = () => {
   const [readOnly, setReadOnly] = useState(false);
   const [activeThemeOption, setThemeOption] = useState(themeOptions[0]);
   const handleChange = value => {
+    console.log(value)
     localStorage.setItem("saved", JSON.stringify(value));
   }
 
