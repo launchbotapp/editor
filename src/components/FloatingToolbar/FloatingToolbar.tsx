@@ -110,7 +110,6 @@ export const FloatingToolbar: React.FC<Props> = ({
               items={formattingMenuItems(state)}
               commands={commands}
               view={view}
-              surface={"light"}
             />
           </MenuWrapper>
         )}
@@ -129,14 +128,14 @@ const Wrapper = styled.div<{
   align-items: center;
   top: ${props => props.top}px;
   left: ${props => props.left}px;
-  background: white;
-  color: black;
-  z-index: 999;
+  background: ${props => props.theme.backgroundColor};
+  color: ${props => props.theme.textColor};
+  z-index: 2;
   box-sizing: border-box;
   border-radius: 5px;
   pointer-events: none;
   white-space: nowrap;
-  border: 1px solid #CCCCCC;
+  border: ${props => props.theme.border};
   box-shadow: rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
   visibility: hidden;
 

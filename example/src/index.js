@@ -1,47 +1,38 @@
 import * as React from "react";
 import { useState } from "react";
 import ReactDOM from "react-dom";
-import styled from "styled-components";
+import _ from "lodash";
+import Select from "react-select";
+
+
 import Editor from "../../src";
+import { lightTheme, darkTheme } from "../../src/theme";
+import { weirdTheme } from "./theme";
+import {
+  Container,
+  Controls,
+  Control,
+  Button,
+  EditorWrapper,
+} from "./style";
 
 const element = document.getElementById("main");
+
+// storing text to local storage for demo
 const savedText = localStorage.getItem("saved");
 const exampleText = "This is fallback text...";
 const defaultValue = JSON.parse(savedText) || exampleText;
 
-const Container = styled.div`
-  font-family: -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
-`;
-
-const Button = styled.button`
-  font-family: -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
-  border: none;
-  padding: 0.4em 0.8em;
-  border-radius: 5px;
-  cursor: pointer;
-  background: black;
-  color: white;
-`;
-
-const EditorWrapper = styled.div`
-  position: relative;
-  padding: 1em; 
-`;
-
-const Backdrop = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-  border-radius: 5px;
-  border: ${props => props.readOnly ? "none" : "2px solid #EEEEEE"};
-  background: ${props => props.readOnly ? "#f8f8f8" : "white"};
-`;
+// define demo theme options
+const themeOptions = [
+  { value: "light", label: "Light", theme: lightTheme},
+  { value: "dark", label: "Dark", theme: darkTheme},
+  { value: "weird", label: "Weird", theme: weirdTheme},
+]
 
 const Example = () => {
   const [readOnly, setReadOnly] = useState(false);
+  const [activeThemeOption, setThemeOption] = useState(themeOptions[0]);
   const handleChange = value => {
     localStorage.setItem("saved", JSON.stringify(value));
   }
@@ -50,22 +41,30 @@ const Example = () => {
     <Container>
       <h1>Editor</h1>
 
-      <div style={{marginBottom: "1em"}}>
-        <Button type="button" onClick={() => setReadOnly(!readOnly)}>
-          {readOnly ? "👀 Read only" : "📝 Editable"}
-        </Button>
-      </div>
+      {/* controls for demo styling */}
+      <Controls style={{marginBottom: "1em"}}>
+        <Control>
+          <Button type="button" onClick={() => setReadOnly(!readOnly)}>
+            {readOnly ? "👀 Read only" : "📝 Editable"}
+          </Button>
+        </Control>
+        <Control>
+          <Select
+            options={themeOptions}
+            onChange={option => setThemeOption(option)}
+            value={activeThemeOption}
+          />
+        </Control>
+      </Controls>
       
-      <EditorWrapper>  
+      {/* editor */}
+      <EditorWrapper theme={activeThemeOption.theme}>  
         <Editor
           initialValue={defaultValue}
           placeholder="Start writing..."
           onChange={handleChange}
           readOnly={readOnly}
-        />
-
-        <Backdrop
-          readOnly={readOnly}
+          theme={activeThemeOption.theme}
         />
       </EditorWrapper>
     </Container>
@@ -75,4 +74,3 @@ const Example = () => {
 if (element) {
   ReactDOM.render(<Example />, element);
 }
-

@@ -5,20 +5,17 @@ type Props = {
   active: boolean;
   onClick: () => void;
   children: React.ReactNode;
-  surface: "light" | "dark";
 }
 
 export const Button: React.FC<Props> = ({
   active,
   onClick,
   children,
-  surface,
 }: Props) => {
   return (
     <MenuButton
       onClick={onClick}
       active={active}
-      surface={surface}
     >
       {children}
     </MenuButton>
@@ -27,7 +24,6 @@ export const Button: React.FC<Props> = ({
 
 const MenuButton = styled.button<{
   active: boolean;
-  surface: "light" | "dark";
 }>`
   display: inline-block;
   flex: 0;
@@ -38,7 +34,7 @@ const MenuButton = styled.button<{
   border: none;
   background: none;
   padding: 0;
-  opacity: 0.5;
+  opacity: 0.65;
   outline: none;
   border-radius: 5px;
 
@@ -48,10 +44,6 @@ const MenuButton = styled.button<{
 
   ${props => props.active && `
     opacity: 1;
+    background: ${props.theme.backgroundAccentColor}
   `}
-
-  ${props => props.active && props.surface === "light" && `
-    background: #eeeeee;
-  `}
-
 `;
