@@ -3,11 +3,11 @@
 
 ![demo](support/assets/demo-colors.gif)
 
-Just a simple, themable, rich-ish text editor for React. Can it do everything? Nope. But it can do more than nothing and is super easy to use.
+Just a simple, themable, rich-*ish* text editor for React. Can it do everything? Nope. But it can do more than nothing and is super easy to use.
 
 * ⌨️ Written in Typescript
 * 🛠️ Built on top of [Prosemirror](https://prosemirror.net)
-* 🙏 ouldn't have been built without [rich-markdown-editor](https://github.com/outline/rich-markdown-editor) and [tiptap](https://github.com/scrumpy/tiptap).
+* 🙏 Couldn't be done without [rich-markdown-editor](https://github.com/outline/rich-markdown-editor) and [tiptap](https://github.com/scrumpy/tiptap).
 
 > ⚠️ If you are looking for something more powerful (i.e. inline images, custom view components, embeds), look elsewhere. While we may add these features over time, ARTE isn't there today. Check out [Remirror](https://github.com/remirror/remirror), or try building something from scratch using Prosemirror.
 
