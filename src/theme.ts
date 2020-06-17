@@ -49,8 +49,8 @@ export const colors: Colors = {
   white: "#FFFFFF",
   black: "#181A1B",
   blackLight: "#464849",
-  grey: "#AAAAAA",
-  greyLight: "#CCCCCC",
+  grey: "#a8a8a8",
+  greyLight: "#d8d8d8",
 }
 
 export const fonts: Fonts = {
@@ -70,7 +70,7 @@ const base: DefaultTheme = {
   colors,
   textColor: colors.black,
   backgroundColor: colors.white,
-  backgroundAccentColor: colors.red,
+  backgroundAccentColor: colors.greyLight,
   borderColor: colors.greyLight,
   buttonBackgroundColor: colors.black,
   buttonTextColor: colors.white,
