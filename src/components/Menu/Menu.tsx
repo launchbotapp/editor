@@ -43,7 +43,7 @@ export const Menu: React.FC<Props> = ({
       <Button
         key={idx}
         active={isActive}
-        onClick={() => commands[item.name]()}
+        onClick={() => commands[item.name](item.attrs)}
       >
         <IconWrapper title={item.label}>
           <Icon />

@@ -24,6 +24,7 @@ import {
 import {
   Doc,
   BulletList,
+  Heading,
   ListItem,
   OrderedList,
   Paragraph,
@@ -117,6 +118,7 @@ class Editor extends React.PureComponent<Props> {
         new BulletList(),
         new OrderedList(),
         new ListItem(),
+        new Heading(),
         new Text(),
         
         // marks
